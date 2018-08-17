@@ -18,7 +18,10 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/reuterscraper");
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/reuterscraper";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 app.get("/scrape", function(req, res) {
   axios.get("https://www.reuters.com/news/archive/domesticNews").then(function(response) {
